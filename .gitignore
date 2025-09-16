@@ -1,23 +1,7 @@
-# Python
 __pycache__/
 *.pyc
 *.pyo
 *.pyd
-*.pyw
-*.py[co]
-*$py.class
-
-# Virtual Environment
 venv/
-env/
-ENV/
-
-# IDE
-.vscode/
-.idea/
-*.swp
-*.swo
-
-# OS
+.env
 .DS_Store
-Thumbs.db

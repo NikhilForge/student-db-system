@@ -1,18 +1,18 @@
 from flask import Flask, render_template, request, redirect, url_for, session, flash
+from config import MYSQL_HOST, MYSQL_USER, MYSQL_PASSWORD, MYSQL_DB
 import mysql.connector
 from werkzeug.security import generate_password_hash, check_password_hash
-import os
 
 app = Flask(__name__)
 app.secret_key = 'your_secret_key_here_change_in_production'  # 👈 CHANGE THIS IN PRODUCTION!
 
-# Database connection helper - Uses environment variables
+# Database connection helper - Returns connection only
 def get_db_connection():
     conn = mysql.connector.connect(
-        host=os.getenv('MYSQL_HOST', 'localhost'),
-        user=os.getenv('MYSQL_USER', 'root'),
-        password=os.getenv('MYSQL_PASSWORD', ''),
-        database=os.getenv('MYSQL_DB', 'student_db')
+        host=MYSQL_HOST,
+        user=MYSQL_USER,
+        password=MYSQL_PASSWORD,
+        database=MYSQL_DB
     )
     return conn
 
@@ -301,6 +301,6 @@ def add_marks():
 
     return redirect(url_for('admin_dashboard'))
 
-# Run the app — ONLY FOR LOCAL TESTING!
+# Run the app
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=5000)
+    app.run(debug=True)
