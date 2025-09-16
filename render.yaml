@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: student-db-system
+    env: docker
+    plan: starter
+    branch: main
+    buildCommand: ""
+    startCommand: "gunicorn app:app --bind 0.0.0.0:$PORT --workers 2"
+    dockerfilePath: Dockerfile
+    autoDeploy: true
+    envVars:
+      - key: MYSQL_HOST
+      - key: MYSQL_USER
+      - key: MYSQL_PASSWORD
+      - key: MYSQL_DB
+      - key: SECRET_KEY

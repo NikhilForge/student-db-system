@@ -1,10 +1,17 @@
 from flask import Flask, render_template, request, redirect, url_for, session, flash
-from config import MYSQL_HOST, MYSQL_USER, MYSQL_PASSWORD, MYSQL_DB
+import os
+from config import MYSQL_HOST as CFG_MYSQL_HOST, MYSQL_USER as CFG_MYSQL_USER, MYSQL_PASSWORD as CFG_MYSQL_PASSWORD, MYSQL_DB as CFG_MYSQL_DB
 import mysql.connector
 from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
-app.secret_key = 'your_secret_key_here_change_in_production'  # 👈 CHANGE THIS IN PRODUCTION!
+# Prefer environment variables for deployment configuration
+MYSQL_HOST = os.environ.get('MYSQL_HOST', CFG_MYSQL_HOST)
+MYSQL_USER = os.environ.get('MYSQL_USER', CFG_MYSQL_USER)
+MYSQL_PASSWORD = os.environ.get('MYSQL_PASSWORD', CFG_MYSQL_PASSWORD)
+MYSQL_DB = os.environ.get('MYSQL_DB', CFG_MYSQL_DB)
+
+app.secret_key = os.environ.get('SECRET_KEY', 'your_secret_key_here_change_in_production')  # change in production
 
 # Database connection helper - Returns connection only
 def get_db_connection():
@@ -119,6 +126,12 @@ def logout():
     session.clear()
     flash('You have been logged out.', 'info')
     return redirect(url_for('login'))
+
+
+# Simple health endpoint for container orchestrators
+@app.route('/health')
+def health():
+    return 'ok', 200
 
 # --- ADMIN CRUD OPERATIONS ---
 
