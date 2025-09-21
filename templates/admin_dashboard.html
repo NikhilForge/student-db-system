@@ -340,6 +340,43 @@
                 </div>
             </div>
 
+            <!-- Mark Attendance Form -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <i class="fas fa-calendar-check me-2"></i> Mark Attendance
+                </div>
+                <div class="card-body">
+                    <form method="POST" action="{{ url_for('mark_attendance') }}" class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Select Course</label>
+                            <select class="form-select" name="course_id" required>
+                                <option value="">-- Select Course --</option>
+                                {% for course in courses %}
+                                    {% if 'Elective' in course.course_name %}
+                                        <option value="{{ course.course_id }}" style="color: #d63384; font-weight: bold;">
+                                            {{ course.course_id }} - {{ course.course_name }} (Elective)
+                                        </option>
+                                    {% else %}
+                                        <option value="{{ course.course_id }}">
+                                            {{ course.course_id }} - {{ course.course_name }}
+                                        </option>
+                                    {% endif %}
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Select Date</label>
+                            <input type="date" class="form-control" name="date" required>
+                        </div>
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-info w-100">
+                                <i class="fas fa-calendar-check me-2"></i> Show Students
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
             <!-- Students Table -->
             <div class="card">
                 <div class="card-header">
